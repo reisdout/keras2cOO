@@ -1,4 +1,0 @@
-#define MAX_NUM_CARS 1000
-
-#define NUMTESTE 20
-#define NUMBIGTESTE 1893

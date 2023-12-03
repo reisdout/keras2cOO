@@ -10,19 +10,26 @@
 #include "./CNN_3000_epocas/keras2c_model_CNN.h"
 #include "./Model/Model.h"
 #include "defines.h"
-
+#include <fstream>
+#include <sstream>
 
 #include "./MLP_3000_epocas_SND_RTT/keras2c_model_MLP_SND_RTT.h" 
 
 using namespace std;
 
-# define TEST_NS3_MLP_SND_RTT  1
+# define NS3_TEST_MLP_SND_RTT  1
+
+# define BIG_TEST_CNN_ACK_SND_RTT 2
 
 void TestFromNs3(Model *, float parSND,float parRTT);
-
+void BigTestCNN_ACK_SND_RTT(Model*);
+float myfloatOutput_CNN_BigTest[1] = {0};
+float kerasarray_CNN_Big_test[9];
+float  kerasprevision_CNN_BigTest;
 int main()
 {
-    int test_type = TEST_NS3_MLP_SND_RTT;
+    char c;
+    int test_type = -1;
 
     vector<string> msg {"Hello", "C++", "World", "from", "VS Code", "and the C++ extension!"};
     
@@ -51,7 +58,7 @@ k2c_tensor c_dense_70_1_test1 = {&c_dense_70_1_test1_array[0],1,1,{1,1,1,1,1}}; 
     
     Model* ptModel;
 
-    if (test_type == TEST_NS3_MLP_SND_RTT)    
+    if (test_type == NS3_TEST_MLP_SND_RTT)    
     {
         float x,y;
         cout << "Entre com o SND: ";        
@@ -60,8 +67,23 @@ k2c_tensor c_dense_70_1_test1 = {&c_dense_70_1_test1_array[0],1,1,{1,1,1,1,1}}; 
         cin >> y;
         ptModel = new MLP_SND_RTTModel();
         TestFromNs3(ptModel,x,y);
+        if(ptModel)
+            delete ptModel;
         return 0;
     }
+
+    if (test_type == BIG_TEST_CNN_ACK_SND_RTT)    
+    {
+        ptModel = new CNNModel();
+        
+        BigTestCNN_ACK_SND_RTT(ptModel);
+
+        if(ptModel)
+            delete ptModel;
+
+        return 0;
+    }
+
 
     ptModel = new MLPModel();
     ptModel->keras2c_model_initialize();
@@ -282,7 +304,9 @@ delete ptModel;
 ptModel = new CNNModel();
 ptModel->keras2c_model_initialize();
 
-float kerasarray_CNN[NUMTESTE][9] ={{0.03154793,0.00112366,0.94129555,0.03210959,0.00352612,0.93319838,0.52058012,0.13857344,0.95748988},
+float kerasarray_CNN[NUMTESTE][9] ={{0.14749278,0.1415601 ,0.92712551,0.19201905,0.2585002 ,0.96356275,0.03154524,0.0040306 ,0.94331984},
+                                {0.19201905,0.2585002 ,0.96356275,0.03154524,0.0040306 ,0.94331984,0.57073705,0.90577165,0.99392713},
+                                {0.03154793,0.00112366,0.94129555,0.03210959,0.00352612,0.93319838,0.52058012,0.13857344,0.95748988},
                                 {0.03210959,0.00352612,0.93319838,0.52058012,0.13857344,0.95748988,0.03806186,0.04001033,0.92105263},
                                 {0.52058012,0.13857344,0.95748988,0.03806186,0.04001033,0.92105263,0.03202978,0.00544095,0.94534413},
                                 {0.03806186,0.04001033,0.92105263,0.03202978,0.00544095,0.94534413,0.03154524,0.03148659,0.88663968},
@@ -299,15 +323,16 @@ float kerasarray_CNN[NUMTESTE][9] ={{0.03154793,0.00112366,0.94129555,0.03210959
                                 {0.54620274,0.32750149,0.96153846,0.36449898,0.34639502,0.86032389,0.5396366 ,0.56015277,0.98582996},
                                 {0.36449898,0.34639502,0.86032389,0.5396366 ,0.56015277,0.98582996,0.52864781,0.5469473 ,0.98987854},
                                 {0.5396366 ,0.56015277,0.98582996,0.52864781,0.5469473 ,0.98987854,0.5348433 ,0.53157082,0.86234818},
-                                {0.52864781,0.5469473 ,0.98987854,0.5348433 ,0.53157082,0.86234818,0.42493336,0.16594694,0.91902834},
-                                {0.5348433 ,0.53157082,0.86234818,0.42493336,0.16594694,0.91902834,0.53746471,0.50812433,0.87044534},
-                                {0.42493336,0.16594694,0.91902834,0.53746471,0.50812433,0.87044534,0.13228466,0.16697497,0.93117409}
+                                {0.52864781,0.5469473 ,0.98987854,0.5348433 ,0.53157082,0.86234818,0.42493336,0.16594694,0.91902834}
                                 };
 
 
 
 
-float  kerasprevision_CNN[NUMTESTE] = {0.07900496,
+float  kerasprevision_CNN[NUMTESTE] = {
+                                    0.9998645,
+                                    0.9305163,
+                                    0.07900496,
                                    0.9640825,
                                    0.9999773,
                                    0.00043669,
@@ -325,8 +350,6 @@ float  kerasprevision_CNN[NUMTESTE] = {0.07900496,
                                    0.9559127,
                                    1.3346447e-05,
                                    0.00034013,
-                                   0.00020421,
-                                   0.99479043
                                    };
 
 
@@ -375,7 +398,7 @@ for(int i=0; i<NUMTESTE;i++)
 
 }
 
-
+cin>>c;
 ptModel->keras2c_model_terminate();
 delete ptModel;
 //===================================================================================
@@ -4193,7 +4216,7 @@ float  kerasprevision_MLP_SND_RTT[NUMBIGTESTE] = {1.8327768e-05,
     //float  kerasprevision =0.5068154;
 
     float myfloatOutput_MLP_SND_RTT[1] = {0};
-    char c;
+
 
     printf("###(  keras , keras2c,  erro  )\n");
 
@@ -4277,4 +4300,191 @@ void TestFromNs3(Model* parModel, float parSND, float parRTT)
 
     cout << myOutput.array[0]<<"\n";
 
+}
+
+
+void BigTestCNN_ACK_SND_RTT(Model *ptModel)
+{
+
+char c;
+std::cout<< "### Big Test CNN (ACK SND, RTT)####\n";
+std::cout<< "Pressione qualquer tecla>>";
+cin >> c;
+
+k2c_tensor myInput,myOutput;
+
+
+ptModel->keras2c_model_initialize();
+
+std::cout << "carregando dados .....\n";
+
+fstream my_file_keras_array, my_file_keras_prevision;
+	
+my_file_keras_array.open("./kerasarray_CNN.txt", ios::in);
+if (!my_file_keras_array) {
+	cout << "No such file";
+    return;
+
+}
+
+my_file_keras_prevision.open("./kerasprevision_CNN.txt", ios::in);
+if (!my_file_keras_prevision) {
+	cout << "No such file";
+    return;
+
+}
+
+
+int j =0;
+int linefile=1;
+string line_keras_array;
+std::string         value;
+std::stringstream   linestream_keras_array(" ");
+string line_keras_prevision;
+//std::string         value_keras_prevision;
+std::stringstream   linestream_keras_prevision(" ");
+
+
+
+while(getline(my_file_keras_array,line_keras_array) && getline(my_file_keras_prevision,line_keras_prevision))
+{
+    j=0;
+    cout <<"line" << linefile <<":" << line_keras_array <<"\n";
+    linestream_keras_array.clear();
+    linestream_keras_array.str(line_keras_array);
+
+    while(getline(linestream_keras_array,value,','))
+    {
+        //std::cout << "Value(" << value << ")\n";
+        kerasarray_CNN_Big_test[j] = stof(value);
+        j++;
+    }
+    std::cout << "Line keras array Finished" << std::endl;
+    for(int k=0; k<j;k++)
+    {
+        std::cout << kerasarray_CNN_Big_test[k] <<" ";
+    }
+    cout <<"\n";
+    
+    //cin >>c;
+
+    linestream_keras_prevision.clear();
+    linestream_keras_prevision.str(line_keras_prevision);
+    
+
+    while(getline(linestream_keras_prevision,value,','))
+    {
+        //std::cout << "Value(" << value << ")\n";
+        kerasprevision_CNN_BigTest = stof(value);
+        j++;
+    }
+    //std::cout << "Line Finished kerasprevision" << std::endl;
+    //std::cout << kerasprevision_CNN <<" ";    
+    cout <<"\n";
+
+        myInput.array = &kerasarray_CNN_Big_test[0];
+        myInput.ndim = 3;
+        myInput.numel = 9;
+        myInput.shape[0] = 3;
+        myInput.shape[1] = 3;
+        myInput.shape[2] = 1;
+        myInput.shape[3] = 1;
+        myInput.shape[4] = 1;
+
+
+        myfloatOutput_CNN_BigTest[1] = {0};
+        myOutput.array=myfloatOutput_CNN_BigTest;
+        myOutput.ndim=1;
+        myOutput.numel=1;
+        myOutput.shape[0]=1;
+        myOutput.shape[1]=1;
+        myOutput.shape[2]=1;
+        myOutput.shape[3]=1;
+        myOutput.shape[4]=1;
+
+
+
+        ptModel->keras2c_model(&myInput,&myOutput); 
+
+        printf("%3d(%f,%f,%e)\n", linefile,kerasprevision_CNN_BigTest, myOutput.array[0],fabsf(kerasprevision_CNN_BigTest-myOutput.array[0]));
+        if(fabsf(kerasprevision_CNN_BigTest-myOutput.array[0]) >=0.0001)
+        {
+                cout << "Erro grande para " << "i= " << linefile;
+                cin >> c;
+
+
+        }
+
+    linefile++;
+}
+my_file_keras_array.close();
+my_file_keras_prevision.close();
+
+cin >> c;
+
+
+
+/*
+std::cout << "dados carregados.....\n";
+
+//float kerasarray[] = {0.10858772,0.43363177,0.94129555,0.72319206,0.69356146,0.93117409,0.0556843,0.11762462,0.93522267};
+//float  kerasprevision =0.5328561;
+
+//float kerasarray[] = {0.03460024,0.10421212,0.93522267,0.47518336,0.47817113,0.94534413,0.17758868,0.76031619,0.93319838};
+
+//float  kerasprevision =0.5068154;
+
+float myfloatOutput_CNN[1] = {0};
+
+
+
+printf("###(  keras , keras2c,  erro  )\n");
+
+for(int i=0; i<2;i++)
+{
+        std::cout << i <<"\n";
+        std::cout << "entrou for.....";
+        for(int k=0; k<9;k++)
+        {
+             std::cout << "entrou for.....";
+             std::cout << "kkkkkkk" <<" ";
+        }
+
+
+            
+        myInput.array = kerasarray_CNN[i];
+        myInput.ndim = 3;
+        myInput.numel = 9;
+        myInput.shape[0] = 3;
+        myInput.shape[1] = 3;
+        myInput.shape[2] = 1;
+        myInput.shape[3] = 1;
+        myInput.shape[4] = 1;
+
+
+        myfloatOutput_CNN[1] = {0};
+        myOutput.array=myfloatOutput_CNN;
+        myOutput.ndim=1;
+        myOutput.numel=1;
+        myOutput.shape[0]=1;
+        myOutput.shape[1]=1;
+        myOutput.shape[2]=1;
+        myOutput.shape[3]=1;
+        myOutput.shape[4]=1;
+
+
+
+        ptModel->keras2c_model(&myInput,&myOutput); 
+
+        printf("%3d(%f,%f,%e)\n", i,kerasprevision_CNN[i], myOutput.array[0],fabsf(kerasprevision_CNN[i]-myOutput.array[0]));
+        if(fabsf(kerasprevision_CNN[i]-myOutput.array[0]) >=0.0001)
+        {
+                cout << "Erro grande para " << "i= " << i;
+                cin >> c;
+
+
+        }
+    }
+
+*/
 }
