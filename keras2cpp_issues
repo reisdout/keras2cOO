@@ -1,0 +1,12 @@
+/home/ns/ns3-workspace/source/ns-3.40/scratch/TCP-Evaluation-Suite-Topology-TCP-cwd/k2c_convolution_layers.cc: In function ‘void k2c_pad3d(k2c_tensor*, const k2c_tensor*, float, const size_t*)’:
+/home/ns/ns3-workspace/source/ns-3.40/scratch/TCP-Evaluation-Suite-Topology-TCP-cwd/k2c_convolution_layers.cc:104:18: error: unused variable ‘outdim1’ [-Werror=unused-variable]
+  104 |     const size_t outdim1 = dim1 + pad[0] + pad[1];
+
+
+
+
+
+
+/home/ns/ns3-workspace/source/ns-3.40/scratch/TCP-Evaluation-Suite-Topology-TCP-cwd/k2c_helper_functions.cc:339:9: error: variable ‘foo’ set but not used [-Werror=unused-but-set-variable]
+  339 |     int foo;
+

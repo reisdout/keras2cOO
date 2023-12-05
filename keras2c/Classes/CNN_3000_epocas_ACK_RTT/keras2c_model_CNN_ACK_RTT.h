@@ -2,11 +2,11 @@
 #include "../Model/include/k2c_tensor_include.h"
 #include "../Model/Model.h" 
 
-class CNNModel : public Model{
+class CNN_ACK_RTTModel : public Model{
 public:
-CNNModel(){};
-~CNNModel(){};
-void keras2c_model(const k2c_tensor* conv2d_2_input_1_input, k2c_tensor* dense_5_1_output); 
+CNN_ACK_RTTModel(){};
+~CNN_ACK_RTTModel(){};
+void keras2c_model(const k2c_tensor* , k2c_tensor* );
 void keras2c_model_initialize(); 
 void keras2c_model_terminate(); 
 };

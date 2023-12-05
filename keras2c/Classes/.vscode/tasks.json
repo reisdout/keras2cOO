@@ -20,6 +20,8 @@
                 "-I${fileDirname}/CNN_3000_epocas/*.h",
                 "${fileDirname}/MLP_3000_epocas_SND_RTT/*.cpp",
                 "-I${fileDirname}/MLP_3000_epocas_SND_RTT/*.h",
+                "${fileDirname}/CNN_3000_epocas_ACK_RTT/*.cpp",
+                "-I${fileDirname}/CNN_3000_epocas_ACK_RTT/*.h",
                 "-L${fileDirname}/Model/include/",
                 "-l:libkeras2c.a",
                 "-lm",

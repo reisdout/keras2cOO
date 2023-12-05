@@ -8,6 +8,7 @@
 #include "./MLP_3000_epocas/keras2c_model_MLP.h"
 #include "./LSTM_3000_epocas/keras2c_model_LSTM.h"
 #include "./CNN_3000_epocas/keras2c_model_CNN.h"
+#include "./CNN_3000_epocas_ACK_RTT/keras2c_model_CNN_ACK_RTT.h"
 #include "./Model/Model.h"
 #include "defines.h"
 #include <fstream>
@@ -19,17 +20,28 @@ using namespace std;
 
 # define NS3_TEST_MLP_SND_RTT  1
 
-# define BIG_TEST_CNN_ACK_SND_RTT 2
+# define NS3_TEST_CNN_ACK_SND_RTT  2
 
-void TestFromNs3(Model *, float parSND,float parRTT);
+# define BIG_TEST_CNN_ACK_SND_RTT 3
+
+# define BIG_TEST_CNN_ACK_RTT 4
+
+void TestMLP_SND_RTT_FromNs3(Model *, float parSND,float parRTT);
+void TestCNN_ACK_SND_RTT_FromNs3(Model *, float* parInput);
 void BigTestCNN_ACK_SND_RTT(Model*);
+void BigTestCNN_ACK_RTT(Model*);
 float myfloatOutput_CNN_BigTest[1] = {0};
-float kerasarray_CNN_Big_test[9];
+float kerasarray_CNN_BigTest[9];
 float  kerasprevision_CNN_BigTest;
+
+float myfloatOutput_CNN_ACK_RTT_BigTest[1] = {0};
+float kerasarray_CNN_ACK_RTT_Bigtest[6];
+float  kerasprevision_CNN_ACK_RTT_BigTest;
+
 int main()
 {
     char c;
-    int test_type = -1;
+    int test_type = BIG_TEST_CNN_ACK_RTT;
 
     vector<string> msg {"Hello", "C++", "World", "from", "VS Code", "and the C++ extension!"};
     
@@ -66,7 +78,17 @@ k2c_tensor c_dense_70_1_test1 = {&c_dense_70_1_test1_array[0],1,1,{1,1,1,1,1}}; 
         cout << "Entre com o RTT: ";
         cin >> y;
         ptModel = new MLP_SND_RTTModel();
-        TestFromNs3(ptModel,x,y);
+        TestMLP_SND_RTT_FromNs3(ptModel,x,y);
+        if(ptModel)
+            delete ptModel;
+        return 0;
+    }
+
+   if (test_type == NS3_TEST_CNN_ACK_SND_RTT)    
+    {
+        float in[9] = {0.859296, 0.858536, 0.487853, 0.197095, 0.196868, 0.487853, 0.0520372, 0.0393736, 0.489877};
+        ptModel = new CNNModel();
+        TestCNN_ACK_SND_RTT_FromNs3(ptModel,in);
         if(ptModel)
             delete ptModel;
         return 0;
@@ -82,6 +104,19 @@ k2c_tensor c_dense_70_1_test1 = {&c_dense_70_1_test1_array[0],1,1,{1,1,1,1,1}}; 
             delete ptModel;
 
         return 0;
+    }
+
+    if(test_type ==BIG_TEST_CNN_ACK_RTT)
+    {
+        ptModel = new CNN_ACK_RTTModel();
+        
+        BigTestCNN_ACK_RTT(ptModel);
+
+        if(ptModel)
+            delete ptModel;
+
+        return 0;
+
     }
 
 
@@ -4269,7 +4304,7 @@ float  kerasprevision_MLP_SND_RTT[NUMBIGTESTE] = {1.8327768e-05,
 }
 
 
-void TestFromNs3(Model* parModel, float parSND, float parRTT)
+void TestMLP_SND_RTT_FromNs3(Model* parModel, float parSND, float parRTT)
 {
     k2c_tensor myInput,myOutput;
     float myfloatOutput[1] = {0};
@@ -4299,6 +4334,54 @@ void TestFromNs3(Model* parModel, float parSND, float parRTT)
     parModel->keras2c_model(&myInput,&myOutput);
 
     cout << myOutput.array[0]<<"\n";
+
+}
+
+
+void TestCNN_ACK_SND_RTT_FromNs3(Model *ptModel, float* parInput)
+{
+
+char c;
+std::cout<< "### ns3 Test CNN (ACK SND, RTT)####\n";
+std::cout<< "Pressione qualquer tecla>>";
+cin >> c;
+
+k2c_tensor myInput,myOutput;
+
+
+ptModel->keras2c_model_initialize();
+
+for (int i =0; i<9;i++)
+{
+    kerasarray_CNN_BigTest[i] = parInput[i];
+}
+
+
+myInput.array = &kerasarray_CNN_BigTest[0];
+myInput.ndim = 3;
+myInput.numel = 9;
+myInput.shape[0] = 3;
+myInput.shape[1] = 3;
+myInput.shape[2] = 1;
+myInput.shape[3] = 1;
+myInput.shape[4] = 1;
+
+
+myfloatOutput_CNN_BigTest[1] = {0};
+myOutput.array=myfloatOutput_CNN_BigTest;
+myOutput.ndim=1;
+myOutput.numel=1;
+myOutput.shape[0]=1;
+myOutput.shape[1]=1;
+myOutput.shape[2]=1;
+myOutput.shape[3]=1;
+myOutput.shape[4]=1;
+
+
+
+ptModel->keras2c_model(&myInput,&myOutput); 
+
+cout << myOutput.array[0]<<"\n";
 
 }
 
@@ -4356,13 +4439,13 @@ while(getline(my_file_keras_array,line_keras_array) && getline(my_file_keras_pre
     while(getline(linestream_keras_array,value,','))
     {
         //std::cout << "Value(" << value << ")\n";
-        kerasarray_CNN_Big_test[j] = stof(value);
+        kerasarray_CNN_BigTest[j] = stof(value);
         j++;
     }
     std::cout << "Line keras array Finished" << std::endl;
     for(int k=0; k<j;k++)
     {
-        std::cout << kerasarray_CNN_Big_test[k] <<" ";
+        std::cout << kerasarray_CNN_BigTest[k] <<" ";
     }
     cout <<"\n";
     
@@ -4382,7 +4465,7 @@ while(getline(my_file_keras_array,line_keras_array) && getline(my_file_keras_pre
     //std::cout << kerasprevision_CNN <<" ";    
     cout <<"\n";
 
-        myInput.array = &kerasarray_CNN_Big_test[0];
+        myInput.array = &kerasarray_CNN_BigTest[0];
         myInput.ndim = 3;
         myInput.numel = 9;
         myInput.shape[0] = 3;
@@ -4422,51 +4505,105 @@ my_file_keras_prevision.close();
 
 cin >> c;
 
-
-
-/*
-std::cout << "dados carregados.....\n";
-
-//float kerasarray[] = {0.10858772,0.43363177,0.94129555,0.72319206,0.69356146,0.93117409,0.0556843,0.11762462,0.93522267};
-//float  kerasprevision =0.5328561;
-
-//float kerasarray[] = {0.03460024,0.10421212,0.93522267,0.47518336,0.47817113,0.94534413,0.17758868,0.76031619,0.93319838};
-
-//float  kerasprevision =0.5068154;
-
-float myfloatOutput_CNN[1] = {0};
+}
 
 
 
-printf("###(  keras , keras2c,  erro  )\n");
 
-for(int i=0; i<2;i++)
+void BigTestCNN_ACK_RTT(Model *ptModel)
 {
-        std::cout << i <<"\n";
-        std::cout << "entrou for.....";
-        for(int k=0; k<9;k++)
-        {
-             std::cout << "entrou for.....";
-             std::cout << "kkkkkkk" <<" ";
-        }
+
+char c;
+std::cout<< "### Big Test CNN (ACK, RTT)####\n";
+std::cout<< "Pressione qualquer tecla>>";
+cin >> c;
+
+k2c_tensor myInput,myOutput;
 
 
-            
-        myInput.array = kerasarray_CNN[i];
+ptModel->keras2c_model_initialize();
+
+std::cout << "carregando dados .....\n";
+
+fstream my_file_keras_array, my_file_keras_prevision;
+	
+my_file_keras_array.open("./kerasarray_CNN_ACK_RTT.txt", ios::in);
+if (!my_file_keras_array) {
+	cout << "No such file";
+    return;
+
+}
+
+my_file_keras_prevision.open("./kerasprevision_CNN_ACK_RTT.txt", ios::in);
+if (!my_file_keras_prevision) {
+	cout << "No such file";
+    return;
+
+}
+
+
+int j =0;
+int linefile=1;
+string line_keras_array;
+std::string         value;
+std::stringstream   linestream_keras_array(" ");
+string line_keras_prevision;
+//std::string         value_keras_prevision;
+std::stringstream   linestream_keras_prevision(" ");
+
+
+
+while(getline(my_file_keras_array,line_keras_array) && getline(my_file_keras_prevision,line_keras_prevision))
+{
+    j=0;
+    //cout <<"line" << linefile <<":" << line_keras_array <<"\n";
+    linestream_keras_array.clear();
+    linestream_keras_array.str(line_keras_array);
+
+    while(getline(linestream_keras_array,value,','))
+    {
+        //std::cout << "Value(" << value << ")\n";
+        kerasarray_CNN_ACK_RTT_Bigtest[j] = stof(value);
+        j++;
+    }
+    //std::cout << "Line keras array Finished" << std::endl;
+    for(int k=0; k<j;k++)
+    {
+        //std::cout << kerasarray_CNN_ACK_RTT_Bigtest[k] <<" ";
+    }
+    cout <<"\n";
+    
+    //cin >>c;
+
+    linestream_keras_prevision.clear();
+    linestream_keras_prevision.str(line_keras_prevision);
+    
+
+    while(getline(linestream_keras_prevision,value,','))
+    {
+        //std::cout << "Value(" << value << ")\n";
+        kerasprevision_CNN_ACK_RTT_BigTest = stof(value);
+        j++;
+    }
+    //std::cout << "Line Finished kerasprevision" << std::endl;
+    //std::cout << kerasprevision_CNN <<" ";    
+    cout <<"\n";
+
+        myInput.array = &kerasarray_CNN_ACK_RTT_Bigtest[0];
         myInput.ndim = 3;
-        myInput.numel = 9;
+        myInput.numel = 6;
         myInput.shape[0] = 3;
-        myInput.shape[1] = 3;
-        myInput.shape[2] = 1;
+        myInput.shape[1] = 2;
+        myInput.shape[2] = 1;//3,6,{3,2,1,1,1}
         myInput.shape[3] = 1;
         myInput.shape[4] = 1;
 
 
-        myfloatOutput_CNN[1] = {0};
-        myOutput.array=myfloatOutput_CNN;
+        myfloatOutput_CNN_ACK_RTT_BigTest[1] = {0};
+        myOutput.array=myfloatOutput_CNN_ACK_RTT_BigTest;
         myOutput.ndim=1;
         myOutput.numel=1;
-        myOutput.shape[0]=1;
+        myOutput.shape[0]=1;//,1,1,{1,1,1,1,1}
         myOutput.shape[1]=1;
         myOutput.shape[2]=1;
         myOutput.shape[3]=1;
@@ -4476,15 +4613,21 @@ for(int i=0; i<2;i++)
 
         ptModel->keras2c_model(&myInput,&myOutput); 
 
-        printf("%3d(%f,%f,%e)\n", i,kerasprevision_CNN[i], myOutput.array[0],fabsf(kerasprevision_CNN[i]-myOutput.array[0]));
-        if(fabsf(kerasprevision_CNN[i]-myOutput.array[0]) >=0.0001)
+        printf("###(  keras , keras2c,  erro  )\n");
+        printf("%3d(%f,%f,%e)\n", linefile,kerasprevision_CNN_ACK_RTT_BigTest, myOutput.array[0],fabsf(kerasprevision_CNN_ACK_RTT_BigTest-myOutput.array[0]));
+        if(fabsf(kerasprevision_CNN_ACK_RTT_BigTest-myOutput.array[0]) >=0.0001)
         {
-                cout << "Erro grande para " << "i= " << i;
+                cout << "Erro grande para " << "i= " << linefile;
                 cin >> c;
 
 
         }
-    }
 
-*/
+    linefile++;
+}
+my_file_keras_array.close();
+my_file_keras_prevision.close();
+
+cin >> c;
+
 }
