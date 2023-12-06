@@ -26,8 +26,11 @@ using namespace std;
 
 # define BIG_TEST_CNN_ACK_RTT 4
 
+# define NS3_TEST_CNN_ACK_RTT 5
+
 void TestMLP_SND_RTT_FromNs3(Model *, float parSND,float parRTT);
 void TestCNN_ACK_SND_RTT_FromNs3(Model *, float* parInput);
+void TestCNN_ACK_RTT_FromNs3(Model *, float* parInput);
 void BigTestCNN_ACK_SND_RTT(Model*);
 void BigTestCNN_ACK_RTT(Model*);
 float myfloatOutput_CNN_BigTest[1] = {0};
@@ -41,7 +44,7 @@ float  kerasprevision_CNN_ACK_RTT_BigTest;
 int main()
 {
     char c;
-    int test_type = BIG_TEST_CNN_ACK_RTT;
+    int test_type = NS3_TEST_CNN_ACK_RTT;
 
     vector<string> msg {"Hello", "C++", "World", "from", "VS Code", "and the C++ extension!"};
     
@@ -93,6 +96,17 @@ k2c_tensor c_dense_70_1_test1 = {&c_dense_70_1_test1_array[0],1,1,{1,1,1,1,1}}; 
             delete ptModel;
         return 0;
     }
+
+    if (test_type == NS3_TEST_CNN_ACK_RTT)    
+    {
+        float in[6] = {1.68998,0.858297,0.363231,0.862346,0.0978824,0.866394};
+        ptModel = new CNN_ACK_RTTModel();
+        TestCNN_ACK_RTT_FromNs3(ptModel,in);
+        if(ptModel)
+            delete ptModel;
+        return 0;
+    }
+
 
     if (test_type == BIG_TEST_CNN_ACK_SND_RTT)    
     {
@@ -4384,6 +4398,55 @@ ptModel->keras2c_model(&myInput,&myOutput);
 cout << myOutput.array[0]<<"\n";
 
 }
+
+
+void TestCNN_ACK_RTT_FromNs3 (Model *ptModel, float* parInput)
+{
+char c;
+std::cout<< "### ns3 Test CNN (ACK,RTT)####\n";
+std::cout<< "Pressione qualquer tecla>>";
+cin >> c;
+
+k2c_tensor myInput,myOutput;
+
+
+ptModel->keras2c_model_initialize();
+
+for (int i =0; i<6;i++)
+{
+    kerasarray_CNN_ACK_RTT_Bigtest[i] = parInput[i];
+}
+
+
+myInput.array = &kerasarray_CNN_ACK_RTT_Bigtest[0];
+myInput.ndim = 3;
+myInput.numel = 6;
+myInput.shape[0] = 3;
+myInput.shape[1] = 2;
+myInput.shape[2] = 1;
+myInput.shape[3] = 1;
+myInput.shape[4] = 1;
+
+
+myfloatOutput_CNN_ACK_RTT_BigTest[1] = {0};
+myOutput.array=myfloatOutput_CNN_ACK_RTT_BigTest;
+myOutput.ndim=1;
+myOutput.numel=1;
+myOutput.shape[0]=1;
+myOutput.shape[1]=1;
+myOutput.shape[2]=1;
+myOutput.shape[3]=1;
+myOutput.shape[4]=1;
+
+
+
+ptModel->keras2c_model(&myInput,&myOutput); 
+
+cout << myOutput.array[0]<<"\n";
+
+
+}
+
 
 
 void BigTestCNN_ACK_SND_RTT(Model *ptModel)
