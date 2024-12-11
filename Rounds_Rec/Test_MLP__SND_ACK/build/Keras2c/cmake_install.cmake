@@ -1,4 +1,4 @@
-# Install script for directory: /home/ns/keras2cOO/Rounds_Rec/Test_MLP__SND_ACK/Keras2c
+# Install script for directory: /home/ns/keras2cOO/Keras2cOO_git/keras2cOO/Rounds_Rec/Test_MLP__SND_ACK/Keras2c
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

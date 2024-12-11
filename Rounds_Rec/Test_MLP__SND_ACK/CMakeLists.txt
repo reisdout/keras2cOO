@@ -3,8 +3,6 @@ project(Teste_MLP_SND_RTT VERSION 0.1.0 LANGUAGES C CXX)
 include_directories(Keras2c)
 add_subdirectory(Keras2c)
 
-set(HEADER_DIR "./header")
-set(SRC_DIR "./src")
 
 add_executable(Teste_MLP_SND_RTT 
 main.cpp

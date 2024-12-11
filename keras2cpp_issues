@@ -10,3 +10,11 @@
 /home/ns/ns3-workspace/source/ns-3.40/scratch/TCP-Evaluation-Suite-Topology-TCP-cwd/k2c_helper_functions.cc:339:9: error: variable ‘foo’ set but not used [-Werror=unused-but-set-variable]
   339 |     int foo;
 
+
+
+Não sei por que, mas se devemos colocar o 
+float myfloatOutput_MLP_SND_RTT[1] = {0};
+como global, se quisermos utilizar apenas uma variavel desse tipo
+ver o main do Round_Rec.
+Se não fizser isso a coisa explode
+
