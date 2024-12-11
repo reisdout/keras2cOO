@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/Teste_MLP_SND_RTT.dir/main.cpp.o -o Teste_MLP_SND_RTT  Keras2c/libKeras2c.a 

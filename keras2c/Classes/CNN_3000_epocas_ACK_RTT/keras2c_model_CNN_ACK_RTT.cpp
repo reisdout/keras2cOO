@@ -713,7 +713,7 @@ k2c_dense(dense_5_output,&dense_4_output,&dense_5_kernel,
 
  } 
 
- void CNN_ACK_RTTModel:: keras2c_model_Round0000001(const k2c_tensor* conv2d_8_input_input, k2c_tensor* dense_17_output)
+void CNN_ACK_RTTModel:: keras2c_model_Round0000001(const k2c_tensor* conv2d_8_input_input, k2c_tensor* dense_17_output)
  {
 size_t conv2d_8_stride[2] = {1,1}; 
 size_t conv2d_8_dilation[2] = {1,1}; 

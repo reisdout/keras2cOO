@@ -1,0 +1,6 @@
+/home/ns/keras2cOO/Rounds_Rec/Test_MLP__SND_ACK/build/CMakeFiles/Teste_MLP_SND_RTT.dir
+/home/ns/keras2cOO/Rounds_Rec/Test_MLP__SND_ACK/build/CMakeFiles/edit_cache.dir
+/home/ns/keras2cOO/Rounds_Rec/Test_MLP__SND_ACK/build/CMakeFiles/rebuild_cache.dir
+/home/ns/keras2cOO/Rounds_Rec/Test_MLP__SND_ACK/build/Keras2c/CMakeFiles/Keras2c.dir
+/home/ns/keras2cOO/Rounds_Rec/Test_MLP__SND_ACK/build/Keras2c/CMakeFiles/edit_cache.dir
+/home/ns/keras2cOO/Rounds_Rec/Test_MLP__SND_ACK/build/Keras2c/CMakeFiles/rebuild_cache.dir
