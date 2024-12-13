@@ -1,146 +1,12 @@
-/home/ns/ns3-workspace/source/ns-3.40/scratch/TCP-Evaluation-Suite-Topology-TCP-cwd/k2c_convolution_layers.cc: In function ‘void k2c_pad3d(k2c_tensor*, const k2c_tensor*, float, const size_t*)’:
-/home/ns/ns3-workspace/source/ns-3.40/scratch/TCP-Evaluation-Suite-Topology-TCP-cwd/k2c_convolution_layers.cc:104:18: error: unused variable ‘outdim1’ [-Werror=unused-variable]
-  104 |     const size_t outdim1 = dim1 + pad[0] + pad[1];
-
-
-
-
-
-
-/home/ns/ns3-workspace/source/ns-3.40/scratch/TCP-Evaluation-Suite-Topology-TCP-cwd/k2c_helper_functions.cc:339:9: error: variable ‘foo’ set but not used [-Werror=unused-but-set-variable]
-  339 |     int foo;
-
-
-
-
-#Migração do keras2c para keras 3#
-
-Basicamente, o problema se deu com a extinção de métodos do tipo:
--Retornavam a quantidade de inputs das camadas
-   get_input_at
-   nossa solução foi considerar que sempre retornava 1 input, pois nossas redes sempre recebem 1 tensor apernas
-retornavam camadas anteriores e posteriores, a partir de uma camada dada
-   layer.get_input_at(i).name
-   nossa solução foi criar dois dicionários, um que associava o índece da camada ao nome e vice-versa. 
-
-
-
-#variavel float de inicialização do tensor#
-
-Não sei por que, mas se devemos colocar o 
-float myfloatOutput_MLP_SND_RTT[1] = {0};
-como global, se quisermos utilizar apenas uma variavel desse tipo
-ver o main do Round_Rec.
-Se não fizser isso a coisa explode
-
-
-#Sobre a geração do código C após a migração para o keras3
-
-Observou-se que nos parametros de entrada da função 
-
-keras2c_model
-do código C gerado pela biblioteca, no keras 3, o segundo parametro não era usado no corpo da função como no exemplo a seguir:
-
-void keras2c_model(k2c_tensor* input_layer_8_input, k2c_tensor* keras_tensor_7_output) 
-
-nesse caso, no corpo da função (em que está presente a lista de pesos) não usava o segundo paramero keras_tensor_7_output.
-
-O código C gerado pelo Keras 2 gerava os parametros da camada de output, com exeção do tensor de output, que vinha do segundo
-parametro da função.Vejamos o exemplo a seguir:
-
-keras2c_model_Round0000001(const k2c_tensor* dense_8_input_2_input, k2c_tensor* dense_11_4_output)
-{
-.
-.
-.
-float dense_11_kernel_array[20] = {
--3.27157855e-01f,-6.09620893e-03f,-1.80729342e+00f,-4.00388092e-01f,+2.15032768e+00f,
--2.06966043e+00f,-4.28894639e-01f,+2.15670180e+00f,+2.04998478e-01f,-4.05811310e-01f,
--4.39375877e-01f,+1.96236813e+00f,+6.49449825e-02f,+1.24180548e-01f,+2.19659626e-01f,
-+4.53537762e-01f,-5.07092297e-01f,-1.65305400e+00f,+1.87316906e+00f,+3.16710807e-02f,
-}; 
-k2c_tensor dense_11_kernel = {&dense_11_kernel_array[0],2,20,{20, 1, 1, 1, 1}}; 
-float dense_11_bias_array[1] = {
--1.74815297e-01f,}; 
-k2c_tensor dense_11_bias = {&dense_11_bias_array[0],1,1,{1,1,1,1,1}}; 
-float dense_11_fwork[40] = {0}; 
-
-Observe que, no Keras 2, todos os parametros para a camada de output eram gerados (dense_11_kernel_array, dense_11_kernel,dense_11_bias_array, dense_11_fwork)
-com exceção do output, que é exercido pelo segundo parametro da função (dense_11_4_output) 
-
-
-Agora, comparando-se com os códigos gerados pelo keras 2, como código gerado pelo Keras 3, observou-se que tudo era semelhante (a menos dos nomes),
-exceto que o código C do Keras 3 criava um output para a camada de output, ignorando o segundo paâmetro da função, ou seja, considerava a camada de output
-como uma camada escondida, como no código a seguir
-
-void keras2c_model(k2c_tensor* input_layer_8_input, k2c_tensor* keras_tensor_7_output) { 
-.
-.
-.
-
-
-float dense_35_output_array[1] = {0}; /*Gerando o output para a camada de output, ignorando o keras_tensor_7_output
-k2c_tensor dense_35_output = {&dense_35_output_array[0],1,1,{1,1,1,1,1}}; 
-float dense_35_kernel_array[20] = {
--1.16898394e+00f,+7.28579938e-01f,+3.03842962e-01f,-3.77511322e-01f,-5.22287512e+00f,
-+1.12635589e+00f,-1.38836432e+00f,-9.67098176e-02f,+1.34087369e-01f,+4.93822217e-01f,
--5.16457891e+00f,-1.46250927e+00f,+1.20511532e+00f,-7.32140720e-01f,+6.14292145e-01f,
-+7.60794640e-01f,+4.94368106e-01f,-1.35295379e+00f,+4.73135531e-01f,+1.30259886e-01f,
-}; 
-k2c_tensor dense_35_kernel = {&dense_35_kernel_array[0],2,20,{20, 1, 1, 1, 1}}; 
-float dense_35_bias_array[1] = {
-+1.55003324e-01f,}; 
-k2c_tensor dense_35_bias = {&dense_35_bias_array[0],1,1,{1,1,1,1,1}}; 
-float dense_35_fwork[40] = {0}; 
-
-daí para funcionar foram realzados os seguintes passos:
-1. Comentou-se as linhas correspondente ao float dense_35_output_array[1] e k2c_tensor dense_35_output
-2. dense_35_output foi colocado como parameto de entrada da função, substituindo o keras_tensor_7_output
-3. dense_35_output foi passado como primeiro parametro da ultima chamada da função k2c_dense, ficando:
-
-k2c_dense(dense_35_output,&dense_34_output,&dense_35_kernel, 
-	&dense_35_bias,k2c_sigmoid,dense_35_fwork); 
-
-O código completo, com essas alteraçãos está presente no projeto C++ em 
-
-/home/ns/keras2cOO/Keras2cOO_git/keras2cOO/Rounds_Rec/Test_MLP__SND_ACK
-dentro da pasra src no arquivo keras2c_model_MLP_SND_RTT.cpp
-
-Em resumo, no keras3 deve-se certificar que o último output, passado para a última chamdada da função k2c_dense seja
-o segundo parametro da função keras2c_model.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*Código gerado com erro pelo keras 3 na parte final
-
 #include <math.h> 
-#include <string.h> 
+ #include <string.h> 
 #include "./include/k2c_include.h" 
 #include "./include/k2c_tensor_include.h" 
 
  
 
 
-void keras2c_model(k2c_tensor* input_layer_8_input, k2c_tensor* keras_tensor_7_output) { 
+void keras2c_model(const k2c_tensor* input_layer_8_input, k2c_tensor* keras_tensor_7_output) { 
 
 float dense_32_output_array[20] = {0}; 
 k2c_tensor dense_32_output = {&dense_32_output_array[0],1,20,{20, 1, 1, 1, 1}}; 
@@ -388,6 +254,4 @@ void keras2c_model_initialize() {
 void keras2c_model_terminate() { 
 
 } 
-
-
 
