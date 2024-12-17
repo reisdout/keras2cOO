@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/Teste_MLP.dir/main.cpp.o -o Teste_MLP  Keras2c/libKeras2c.a 

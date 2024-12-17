@@ -1,0 +1,68 @@
+[
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -g -o CMakeFiles/Teste_MLP.dir/main.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/main.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/main.cpp",
+  "output": "CMakeFiles/Teste_MLP.dir/main.cpp.o"
+},
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/header -g -o CMakeFiles/Keras2c.dir/src/k2c_activations.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_activations.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_activations.cpp",
+  "output": "Keras2c/CMakeFiles/Keras2c.dir/src/k2c_activations.cpp.o"
+},
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/header -g -o CMakeFiles/Keras2c.dir/src/k2c_convolution_layers.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_convolution_layers.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_convolution_layers.cpp",
+  "output": "Keras2c/CMakeFiles/Keras2c.dir/src/k2c_convolution_layers.cpp.o"
+},
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/header -g -o CMakeFiles/Keras2c.dir/src/k2c_core_layers.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_core_layers.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_core_layers.cpp",
+  "output": "Keras2c/CMakeFiles/Keras2c.dir/src/k2c_core_layers.cpp.o"
+},
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/header -g -o CMakeFiles/Keras2c.dir/src/k2c_embedding_layers.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_embedding_layers.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_embedding_layers.cpp",
+  "output": "Keras2c/CMakeFiles/Keras2c.dir/src/k2c_embedding_layers.cpp.o"
+},
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/header -g -o CMakeFiles/Keras2c.dir/src/k2c_helper_functions.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_helper_functions.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_helper_functions.cpp",
+  "output": "Keras2c/CMakeFiles/Keras2c.dir/src/k2c_helper_functions.cpp.o"
+},
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/header -g -o CMakeFiles/Keras2c.dir/src/k2c_merge_layers.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_merge_layers.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_merge_layers.cpp",
+  "output": "Keras2c/CMakeFiles/Keras2c.dir/src/k2c_merge_layers.cpp.o"
+},
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/header -g -o CMakeFiles/Keras2c.dir/src/k2c_normalization_layers.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_normalization_layers.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_normalization_layers.cpp",
+  "output": "Keras2c/CMakeFiles/Keras2c.dir/src/k2c_normalization_layers.cpp.o"
+},
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/header -g -o CMakeFiles/Keras2c.dir/src/k2c_pooling_layers.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_pooling_layers.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_pooling_layers.cpp",
+  "output": "Keras2c/CMakeFiles/Keras2c.dir/src/k2c_pooling_layers.cpp.o"
+},
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/header -g -o CMakeFiles/Keras2c.dir/src/k2c_recurrent_layers.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_recurrent_layers.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/k2c_recurrent_layers.cpp",
+  "output": "Keras2c/CMakeFiles/Keras2c.dir/src/k2c_recurrent_layers.cpp.o"
+},
+{
+  "directory": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c",
+  "command": "/usr/bin/g++  -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c -I/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/header -g -o CMakeFiles/Keras2c.dir/src/keras2c_model_MLP.cpp.o -c /home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/keras2c_model_MLP.cpp",
+  "file": "/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/Keras2c/src/keras2c_model_MLP.cpp",
+  "output": "Keras2c/CMakeFiles/Keras2c.dir/src/keras2c_model_MLP.cpp.o"
+}
+]

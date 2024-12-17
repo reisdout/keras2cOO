@@ -1,0 +1,6 @@
+/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/CMakeFiles/Teste_MLP.dir
+/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/CMakeFiles/edit_cache.dir
+/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/CMakeFiles/rebuild_cache.dir
+/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c/CMakeFiles/Keras2c.dir
+/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c/CMakeFiles/edit_cache.dir
+/home/ns/Keras2c/Test_MLP_ACK_SND_RTT/build/Keras2c/CMakeFiles/rebuild_cache.dir
